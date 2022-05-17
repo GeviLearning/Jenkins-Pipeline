@@ -27,6 +27,7 @@ pipeline {
         }
         success {
             echo 'This will run only if successful'
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
         }
         failure {
             echo 'This will run only if failed'
