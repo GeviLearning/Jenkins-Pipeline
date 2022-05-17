@@ -12,19 +12,18 @@ pipeline {
             }
         }
     stage('Test') {
-            node {
-                try {
-                    sh 'exit 1'
-                } 
-                finally {
-                    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'gevireddy@gmail.com', sendToIndividuals: true])
-                }
+            steps {
+                sh 'echo "Fail!" '
             }
         }
     }
         post {
         always {
             echo 'This will always run'
+            mail to: 'gevireddy@gmail.com',
+             subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Result -  ${env.BUILD_URL}"
+
         }
         success {
             echo 'This will run only if successful'
