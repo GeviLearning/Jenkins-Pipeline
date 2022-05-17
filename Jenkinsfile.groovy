@@ -12,7 +12,7 @@ pipeline {
             }
         }
     stage('Test') {
-            steps {
+            node {
                 try {
                     sh 'exit 1'
                 } 
