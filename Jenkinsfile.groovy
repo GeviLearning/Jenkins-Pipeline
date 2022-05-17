@@ -8,12 +8,17 @@ pipeline {
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
-                step([$class: 'Mailer', recipients: 'gevireddy@gmail.com'])
+                //step([$class: 'Mailer', recipients: 'gevireddy@gmail.com'])
             }
         }
     stage('Test') {
             steps {
-                sh 'echo "Fail!" '
+                try {
+                    sh 'exit 1'
+                } 
+                finally {
+                    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'gevireddy@gmail.com', sendToIndividuals: true])
+                }
             }
         }
     }
