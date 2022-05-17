@@ -8,6 +8,7 @@ pipeline {
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
+                step([$class: 'Mailer', recipients: 'gevireddy@gmail.com'])
             }
         }
     stage('Test') {
@@ -19,7 +20,6 @@ pipeline {
         post {
         always {
             echo 'This will always run'
-            step([$class: 'Mailer', recipients: 'gevireddy@gmail.com'])
         }
         success {
             echo 'This will run only if successful'
