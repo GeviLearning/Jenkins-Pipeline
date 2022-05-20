@@ -24,14 +24,15 @@ pipeline {
         }
         success {
             echo 'This will run only if successful'
-            def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+            
             def to = 'gevireddy@gmail.com'
             def content = '${JELLY_SCRIPT,template="html"}'
-            emailext (
-                emailext(body: content, mimeType: 'text/html',
-                        replyTo: '$DEFAULT_REPLYTO', subject: subject,
-                        to: to, attachLog: true )
-            )
+            def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+
+            emailext(body: content, mimeType: 'text/html',
+                    replyTo: '$DEFAULT_REPLYTO', subject: subject,
+                    to: to, attachLog: true )
+
         }
         failure {
             echo 'This will run only if failed'
