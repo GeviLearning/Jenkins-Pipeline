@@ -24,12 +24,13 @@ pipeline {
         }
         success {
             echo 'This will run only if successful'
+            def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+            def to = 'gevireddy@gmail.com'
+            def content = '${JELLY_SCRIPT,template="html"}'
             emailext (
-                subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                to: 'gevireddy@gmail.com',
-                body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                emailext(body: content, mimeType: 'text/html',
+                        replyTo: '$DEFAULT_REPLYTO', subject: subject,
+                        to: to, attachLog: true )
             )
         }
         failure {
