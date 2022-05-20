@@ -17,6 +17,9 @@ pipeline {
             }
         }
     }
+    def to = 'gevireddy@gmail.com'
+    def content = '${JELLY_SCRIPT,template="html"}'
+    def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
         post {
         always {
             echo 'This will always run'
@@ -24,11 +27,6 @@ pipeline {
         }
         success {
             echo 'This will run only if successful'
-            
-            def to = 'gevireddy@gmail.com'
-            def content = '${JELLY_SCRIPT,template="html"}'
-            def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
-
             emailext(body: content, mimeType: 'text/html',
                     replyTo: '$DEFAULT_REPLYTO', subject: subject,
                     to: to, attachLog: true )
